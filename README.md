@@ -15,9 +15,11 @@ Beispiel:
 
 Die Datei api.json und index.php müssen im gleichen Verzeichnis liegen und vom Webserver lesbar sein. Zudem muss api.json durch den Nutzer des Cronjobs beschreibbar sein.
 
-Screenshot
+Screenshot / Demo
 ==========
 ![Alt text](screenshot.png)
+
+Demo unter http://fahrradwetter.mainboarder.de/
 
 Lizenz
 =======
