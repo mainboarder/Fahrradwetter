@@ -17,7 +17,7 @@ Die Datei api.json und index.php müssen im gleichen Verzeichnis liegen und vom 
 
 Screenshot
 ==========
-![Alt text](mainboarder.github.com/Fahrradwetter/screenshot.png)
+![Alt text](screenshot.png)
 
 Lizenz
 =======
