@@ -13,6 +13,12 @@ Erstelle einen Cronjob:
 Beispiel:
 */10 * * * * wget -N --quiet --output-document=/var/www/customers/cust123/html/bike/api.json http://api.wunderground.com/api/abc1234def/forecast10day/q/DE/Leipzig.json
 
+Die Datei api.json und index.php müssen im gleichen Verzeichnis liegen und vom Webserver lesbar sein. Zudem muss api.json durch den Nutzer des Cronjobs beschreibbar sein.
+
+Screenshot
+==========
+![Alt text](mainboarder.github.com/Fahrradwetter/screenshot.png)
+
 Lizenz
 =======
 
