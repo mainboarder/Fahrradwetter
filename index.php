@@ -25,102 +25,26 @@ define('WETTERSTATION', 'http://www.wunderground.com/cgi-bin/findweather/hdfFore
  */
 define('STADT', 'Leipzig');
 
-/**
- * Erhalte die Wetterdaten und baue ein Array
- *
- * @param string Stadtname
- * @return array Wetterdaten
- */
-function getWeather(){
-	// JSON holen
-	$json_string = file_get_contents('api.json');
-	$parsed_json = json_decode($json_string, true);
-  
-	// Daten aus JSON für die nächsten vier Tage holen
-	for($i = 0; $i <= 9; $i++){
-		$rain[$i] = $parsed_json['forecast']['simpleforecast']
-				['forecastday'][$i]['pop'];
-		$icon[$i] = $parsed_json['forecast']['simpleforecast']
-				['forecastday'][$i]['icon_url'];
-		$day[$i] = $parsed_json['forecast']['simpleforecast']
-				['forecastday'][$i]['date']['weekday'];
-		$tempHi[$i] = $parsed_json['forecast']['simpleforecast']
-				['forecastday'][$i]['high']['celsius'];
-		
-		// Fahrradwetter? - Grundsätzlich ja.
-		$fahrrad = '<b>Ja</b>';
-		
-		// Vielleicht, wenn Regenwahrscheinlichkeit größer als 40% oder
-		// Temperaturen nicht zwischen 15 und 24°C
-		if($rain[$i] >= 40 || $tempHi[$i] <= 15 || $tempHi[$i] > 24){
-			$fahrrad = '<a href="'. WETTERSTATION .'">Vielleicht</a>';
-		}
-		// Kein Fahrradwetter, wenn Regenwahrscheinlichkeit über 55%
-		// oder Temperaturen nicht zwischen 10 und 27°C
-		if($tempHi[$i] >= 27 || $tempHi[$i] <= 10 || $rain[$i] >= 55){
-			$fahrrad = 'Nein';
-		}
-		
-		// Array mit den Daten für einen Tag zusammenbauen
-		$wetter[$i] =
-						array(
-							'rain' => $rain[$i],
-							'icon' => $icon[$i],
-							'day' => $day[$i],
-							'tempHi' => $tempHi[$i],
-							'rad' => $fahrrad,
-							);
-		
-		// Arrays miteinander verknüpfen
-		if(isset($wetter[$i-1])){
-			array_merge($wetter[$i-1], $wetter[$i]);
-		}
-	}
+require_once('wetter.php');
 
-	return $wetter;
-}
+$daten = new wetter(WETTERSTATION, STADT);
 
-/**
- * Erstelle eine Tabellenzeile aus einem Array
- *
- * @param array array Auszuwertendes Array mit den Daten
- * @param schluessel string Schlüssel nach dem im Array gesucht wird
- * @param stringVor string Zeichen die vor dem String auftauchen sollen
- * @param stringNach string Zeichen die nach dem String auftauchen sollen
- * @param first string Was soll einmalig am Anfang stehen
- *
- * @return string
- */
-function makeTable($array, $schluessel, $stringVor = NULL,
-		$stringNach = NULL, $first = NULL){
-		
-	$string = '<td>'.$first.'</td>';
-	
-	foreach($array as $daten){
-		$string .= '<td>';
-		$string .= $stringVor . $daten[$schluessel] . $stringNach;
-		$string .= '</td>';
-	}
-	
-	return '
-            <tr>' . $string . '</tr>
-';
-}
-
-$wetter = getWeather();
+$wetter = $daten->getWeather();
 
 echo '<div class="container">
-    <h2 class="text-center trigger"><a href="#">Fahrradwetter in '. STADT .'?</a> - '.$wetter[0]['rad'].'.</h2>
+    <h2 class="text-center trigger"><a href="#">Fahrradwetter in '. STADT .
+        '?</a> - '.$wetter[0]['rad'].'.</h2>
     <div class="toggle_container">
         <table class="table table-striped">';
-echo makeTable($wetter, 'day');
-echo makeTable($wetter, 'icon', '<img src="', '" alt="" />');
-echo makeTable($wetter, 'rain', NULL, '%', 'Regenwahrscheinlichkeit');
-echo makeTable($wetter, 'tempHi', NULL, '°C', 'Höchsttemperatur');
-echo makeTable($wetter, 'rad', NULL, NULL, 'Fahrradwetter');
-echo '
-        </table>';
+echo $daten->makeTable($wetter, 'day');
+echo $daten->makeTable($wetter, 'icon', '<img src="', '" alt="" />');
+echo $daten->makeTable($wetter, 'rain', NULL, '%', 'Regenwahrscheinlichkeit');
+echo $daten->makeTable($wetter, 'tempHi', NULL, '°C', 'Höchsttemperatur');
+echo $daten->makeTable($wetter, 'rad', NULL, NULL, 'Fahrradwetter');
+
 ?>
+
+        </table>
 
         <p><br /></p>
         <div class="text-center bg-info"><p><small>Daten via <a href="http://www.wunderground.com/?apiref=5493fcc3357cb244">Wunderground</a>, alle 10 Minuten neu abgerufen.</small></p>
