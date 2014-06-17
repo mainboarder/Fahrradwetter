@@ -36,10 +36,11 @@ echo '<div class="container">
         '?</a> - '.$wetter[0]['rad'].'.</h2>
     <div class="toggle_container">
         <table class="table table-striped">';
-echo $daten->makeTable($wetter, 'day');
+echo $daten->makeTable($wetter, 'tag');
 echo $daten->makeTable($wetter, 'icon', '<img src="', '" alt="" />');
-echo $daten->makeTable($wetter, 'rain', NULL, '%', 'Regenwahrscheinlichkeit');
-echo $daten->makeTable($wetter, 'tempHi', NULL, '°C', 'Höchsttemperatur');
+echo $daten->makeTable($wetter, 'regen', NULL, '%', 'Regenwahrscheinlichkeit');
+echo $daten->makeTable($wetter, 'tempMax', NULL, '°C', 'Höchsttemperatur');
+echo $daten->makeTable($wetter, 'wind', NULL, 'km/h', 'Wind');
 echo $daten->makeTable($wetter, 'rad', NULL, NULL, 'Fahrradwetter');
 
 ?>
@@ -48,7 +49,7 @@ echo $daten->makeTable($wetter, 'rad', NULL, NULL, 'Fahrradwetter');
 
         <p><br /></p>
         <div class="text-center bg-info"><p><small>Daten via <a href="http://www.wunderground.com/?apiref=5493fcc3357cb244">Wunderground</a>, alle 10 Minuten neu abgerufen.</small></p>
-<p>Fahrradwetter hat eine Regenwahrscheinlichkeit unter 40% und Temperaturen zwischen 15 und 24°C.</p>
+<p>Fahrradwetter hat eine Regenwahrscheinlichkeit unter 40%, Temperaturen zwischen 15 und 24°C und Wind durchschnittlich langsamer als 35km/h.</p>
 <h6>Immer trocken unterwegs mit <a href="http://mainboarder.de">Mainboarder</a> | Code auf <a href="https://github.com/mainboarder/Fahrradwetter">Github</a></h6>
         </div>
     </div>

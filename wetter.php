@@ -14,41 +14,50 @@ class wetter {
     function getWeather(){
         // JSON holen
         $json_string = file_get_contents('api.json');
-        $parsed_json = json_decode($json_string, true);
+        $json_gelesen = json_decode($json_string, true);
 
         // Daten aus JSON für die nächsten vier Tage holen
         for($i = 0; $i <= 9; $i++){
-            $rain[$i] = $parsed_json['forecast']['simpleforecast']
+            $regen[$i] = $json_gelesen['forecast']['simpleforecast']
                     ['forecastday'][$i]['pop'];
-            $icon[$i] = $parsed_json['forecast']['simpleforecast']
+            $icon[$i] = $json_gelesen['forecast']['simpleforecast']
                     ['forecastday'][$i]['icon_url'];
-            $day[$i] = $parsed_json['forecast']['simpleforecast']
+            $tag[$i] = $json_gelesen['forecast']['simpleforecast']
                     ['forecastday'][$i]['date']['weekday'];
-            $tempHi[$i] = $parsed_json['forecast']['simpleforecast']
+            $tempMax[$i] = $json_gelesen['forecast']['simpleforecast']
                     ['forecastday'][$i]['high']['celsius'];
+            $wind[$i] = $json_gelesen['forecast']['simpleforecast']
+                    ['forecastday'][$i]['avewind']['kph'];
 
             // Fahrradwetter? - Grundsätzlich ja.
             $fahrrad = '<b>Ja</b>';
 
             // Vielleicht, wenn Regenwahrscheinlichkeit größer als 40% oder
             // Temperaturen nicht zwischen 15 und 24°C
-            if($rain[$i] >= 40 || $tempHi[$i] <= 15 || $tempHi[$i] > 24){
+            // oder Wind 35 km/h oder schneller
+            if($regen[$i] >= 40 || $tempMax[$i] <= 15 || $tempMax[$i] > 24
+                    || $wind[$i] >= 35){
+                
                 $fahrrad = '<a href="'. WETTERSTATION .'">Vielleicht</a>';
             }
             // Kein Fahrradwetter, wenn Regenwahrscheinlichkeit über 55%
             // oder Temperaturen nicht zwischen 10 und 27°C
-            if($tempHi[$i] >= 27 || $tempHi[$i] <= 10 || $rain[$i] >= 55){
+            // oder Wind 40 km/h oder schneller
+            if($tempMax[$i] >= 27 || $tempMax[$i] <= 10 || $regen[$i] >= 55
+                    || $wind[$i] >= 40){
+                
                 $fahrrad = 'Nein';
             }
 
             // Array mit den Daten für einen Tag zusammenbauen
             $wetter[$i] =
                 array(
-                    'rain' => $rain[$i],
+                    'regen' => $regen[$i],
                     'icon' => $icon[$i],
-                    'day' => $day[$i],
-                    'tempHi' => $tempHi[$i],
+                    'tag' => $tag[$i],
+                    'tempMax' => $tempMax[$i],
                     'rad' => $fahrrad,
+                    'wind' => $wind[$i]
                 );
 
             // Arrays miteinander verknüpfen
