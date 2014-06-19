@@ -23,11 +23,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 <meta name="viewport" content="initial-scale=1,minimum-scale=1,width=device-width" />
 <style>
     .toggle_container{display:none;}
-    h2{margin-top:15%;}
+    .content{margin-top:15%;}
+	body{background:url('unsplash.jpg') no-repeat fixed;}
+	.container{background:rgba(220,220,220,0.7);}
+	table{background:#fff;}
 </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container content">
     <h2 class="text-center trigger"><a href="#">Fahrradwetter in 
 <?php
 $wetter = $daten->getWeather();
@@ -106,6 +109,8 @@ echo $daten->makeTable($wetter, 'rad', NULL, NULL, 'Fahrradwetter');
             </div>
         </form>
     </div>
+	Bild: public domain dank <a href="https://twitter.com/SylwiaBartyzel">Sylwia Bartyzel</a>
+	</div>
     <script type="text/javascript">
 
                     $(document).ready( function() {
