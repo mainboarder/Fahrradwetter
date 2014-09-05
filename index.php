@@ -34,7 +34,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <h2 class="text-center trigger"><a href="#">Fahrradwetter in 
 <?php
 $wetter = $daten->getWeather();
-
 echo STADT .
         '?</a> - '.$wetter[0]['rad'].'.</h2>
     <div class="toggle_container">
@@ -76,7 +75,7 @@ echo $daten->makeTable($wetter, 'rad', NULL, NULL, 'Fahrradwetter');
                     <option value="100">100%</option>
                 </select>
             </div>
-            <button type="submit" class="button">Speichern</button>
+            <button type="submit" class="button">Speichern</button> Seite danach bitte neu laden.
             </div>
             <div class="col-md-3">
                 <label for="temperaturunten">Untere Temperatur</label>

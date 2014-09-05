@@ -124,8 +124,8 @@ class wetter {
         }
         
         // max. Temperatur
-        if(isset($_COOKIE['tempmax'])){
-            $tempMaxWert = $this->filter_cookie_int('tempmax');
+        if(isset($_COOKIE['temphigh'])){
+            $tempMaxWert = $this->filter_cookie_int('temphigh');
         }else{
             $tempMaxWert = 27;
         }
@@ -143,8 +143,10 @@ class wetter {
         // Vielleicht, wenn Regenwahrscheinlichkeit größer als 40% oder
         // Temperaturen nicht zwischen 15 und 24°C
         // oder Wind 35 km/h oder schneller
-        if(empty($_COOKIE['wind']) && $regen >= 40 || $temp <= 15 || $temp > 24
-                || $wind >= $windWert){
+        if(empty($_COOKIE['wind']) && $regen >= 40 ||
+				empty($_COOKIE['wind']) && $temp <= 15 ||
+				empty($_COOKIE['wind']) && $temp > 24 ||
+				$wind >= $windWert){
                 
            $fahrrad = '<a href="'. WETTERSTATION .'">Vielleicht</a>';
         }
