@@ -19,11 +19,9 @@ Beispiel:
 
 Alle Dateien müssen im gleichen Verzeichnis liegen und vom Webserver lesbar sein. Zudem muss api.json durch den Nutzer des Cronjobs beschreibbar sein.
 
-## Screenshot / Demo
+## Screenshot
 
-![Alt text](screenshot.png)
-
-Demo unter http://fahrradwetter.mainboarder.de/
+![Screenshot](screenshot.png)
 
 ## Lizenz
 
